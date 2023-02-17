@@ -8,6 +8,8 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
+				sh 'echo Comenzando Build'
+				sh 'ls'
 				sh 'make -C /var/lib/jenkins/workspace/jenkinsTest/src/ci-cd-tools/'
             }
         }
