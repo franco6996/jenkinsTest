@@ -1,0 +1,110 @@
+ARM GAS  /tmp/ccuEptGW.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"task_diag.c"
+  14              		.text
+  15              		.section	.text.task_diag_init,"ax",%progbits
+  16              		.align	1
+  17              		.global	task_diag_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	task_diag_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 08B5     		push	{r3, lr}
+  28 0002 FFF7FEFF 		bl	diag_init
+  29 0006 08BD     		pop	{r3, pc}
+  31              		.section	.text.task_diag_run,"ax",%progbits
+  32              		.align	1
+  33              		.global	task_diag_run
+  34              		.syntax unified
+  35              		.thumb
+  36              		.thumb_func
+  37              		.fpu fpv4-sp-d16
+  39              	task_diag_run:
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42 0000 10B5     		push	{r4, lr}
+  43 0002 82B0     		sub	sp, sp, #8
+  44 0004 0023     		movs	r3, #0
+  45 0006 ADF80630 		strh	r3, [sp, #6]	@ movhi
+  46 000a ADF80430 		strh	r3, [sp, #4]	@ movhi
+  47 000e 0093     		str	r3, [sp]
+  48 0010 0DF10600 		add	r0, sp, #6
+  49 0014 FFF7FEFF 		bl	diag_get_next_signal
+  50 0018 10B1     		cbz	r0, .L6
+  51              	.L4:
+  52 001a 0020     		movs	r0, #0
+  53 001c 02B0     		add	sp, sp, #8
+  54              		@ sp needed
+  55 001e 10BD     		pop	{r4, pc}
+  56              	.L6:
+  57 0020 BDF80600 		ldrh	r0, [sp, #6]
+  58 0024 FFF7FEFF 		bl	map_signal_id_to_index
+  59 0028 0446     		mov	r4, r0
+  60 002a FFF7FEFF 		bl	is_valid_signal_index
+ARM GAS  /tmp/ccuEptGW.s 			page 2
+
+
+  61 002e 0028     		cmp	r0, #0
+  62 0030 F3D0     		beq	.L4
+  63 0032 C4EBC403 		rsb	r3, r4, r4, lsl #3
+  64 0036 0D4A     		ldr	r2, .L7
+  65 0038 02EBC303 		add	r3, r2, r3, lsl #3
+  66 003c 93F82430 		ldrb	r3, [r3, #36]	@ zero_extendqisi2
+  67 0040 002B     		cmp	r3, #0
+  68 0042 EAD0     		beq	.L4
+  69 0044 C4EBC401 		rsb	r1, r4, r4, lsl #3
+  70 0048 01AA     		add	r2, sp, #4
+  71 004a 084B     		ldr	r3, .L7
+  72 004c 33F83110 		ldrh	r1, [r3, r1, lsl #3]
+  73 0050 5120     		movs	r0, #81
+  74 0052 FFF7FEFF 		bl	dictionary_write
+  75 0056 01AA     		add	r2, sp, #4
+  76 0058 6946     		mov	r1, sp
+  77 005a 2046     		mov	r0, r4
+  78 005c FFF7FEFF 		bl	dictionary_read
+  79 0060 01AA     		add	r2, sp, #4
+  80 0062 0099     		ldr	r1, [sp]
+  81 0064 5220     		movs	r0, #82
+  82 0066 FFF7FEFF 		bl	dictionary_write
+  83 006a D6E7     		b	.L4
+  84              	.L8:
+  85              		.align	2
+  86              	.L7:
+  87 006c 00000000 		.word	can_signal_st
+  89              		.ident	"GCC: (15:9-2019-q4-0ubuntu1) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]"
+ARM GAS  /tmp/ccuEptGW.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 task_diag.c
+     /tmp/ccuEptGW.s:16     .text.task_diag_init:0000000000000000 $t
+     /tmp/ccuEptGW.s:24     .text.task_diag_init:0000000000000000 task_diag_init
+     /tmp/ccuEptGW.s:32     .text.task_diag_run:0000000000000000 $t
+     /tmp/ccuEptGW.s:39     .text.task_diag_run:0000000000000000 task_diag_run
+     /tmp/ccuEptGW.s:87     .text.task_diag_run:000000000000006c $d
+
+UNDEFINED SYMBOLS
+diag_init
+diag_get_next_signal
+map_signal_id_to_index
+is_valid_signal_index
+dictionary_write
+dictionary_read
+can_signal_st

@@ -1,0 +1,42 @@
+---
+:source:
+  :path: test
+  :file: test_delay.c
+:successes:
+- :test: test__delay_init__null_instance
+  :line: 26
+  :message: ''
+  :unity_test_time: 0
+- :test: test__delay_init__random_duration
+  :line: 44
+  :message: ''
+  :unity_test_time: 0
+- :test: test__delay_get_status__null_instance
+  :line: 68
+  :message: ''
+  :unity_test_time: 0
+- :test: test__delay_get_status__delay_running
+  :line: 85
+  :message: ''
+  :unity_test_time: 0
+- :test: test__delay_get_status__delay_expired
+  :line: 112
+  :message: ''
+  :unity_test_time: 0
+- :test: test__delay_reset__null_instance
+  :line: 139
+  :message: ''
+  :unity_test_time: 0
+- :test: test__delay_reset__reset
+  :line: 156
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 7
+  :passed: 7
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.0048223000012512784

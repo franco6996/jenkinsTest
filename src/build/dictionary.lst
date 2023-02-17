@@ -1,0 +1,368 @@
+ARM GAS  /tmp/ccdPhAu6.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"dictionary.c"
+  14              		.text
+  15              		.section	.text.is_valid_signal,"ax",%progbits
+  16              		.align	1
+  17              		.arch armv7e-m
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  23              	is_valid_signal:
+  24              		@ args = 0, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26 0000 10B5     		push	{r4, lr}
+  27 0002 0446     		mov	r4, r0
+  28 0004 0D48     		ldr	r0, .L7
+  29 0006 00EB0410 		add	r0, r0, r4, lsl #4
+  30 000a 0430     		adds	r0, r0, #4
+  31 000c FFF7FEFF 		bl	delay_get_status
+  32 0010 0328     		cmp	r0, #3
+  33 0012 0FD0     		beq	.L3
+  34 0014 C4EBC403 		rsb	r3, r4, r4, lsl #3
+  35 0018 094A     		ldr	r2, .L7+4
+  36 001a 02EBC303 		add	r3, r2, r3, lsl #3
+  37 001e 1B6A     		ldr	r3, [r3, #32]
+  38 0020 53B1     		cbz	r3, .L4
+  39 0022 C4EBC404 		rsb	r4, r4, r4, lsl #3
+  40 0026 02EBC404 		add	r4, r2, r4, lsl #3
+  41 002a 94F82400 		ldrb	r0, [r4, #36]	@ zero_extendqisi2
+  42 002e 10B1     		cbz	r0, .L2
+  43 0030 0120     		movs	r0, #1
+  44 0032 00E0     		b	.L2
+  45              	.L3:
+  46 0034 0120     		movs	r0, #1
+  47              	.L2:
+  48 0036 10BD     		pop	{r4, pc}
+  49              	.L4:
+  50 0038 0120     		movs	r0, #1
+  51 003a FCE7     		b	.L2
+  52              	.L8:
+  53              		.align	2
+  54              	.L7:
+  55 003c 00000000 		.word	.LANCHOR0
+  56 0040 00000000 		.word	can_signal_st
+  58              		.section	.text.dictionary_init,"ax",%progbits
+  59              		.align	1
+ARM GAS  /tmp/ccdPhAu6.s 			page 2
+
+
+  60              		.global	dictionary_init
+  61              		.syntax unified
+  62              		.thumb
+  63              		.thumb_func
+  64              		.fpu fpv4-sp-d16
+  66              	dictionary_init:
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69 0000 38B5     		push	{r3, r4, r5, lr}
+  70 0002 0024     		movs	r4, #0
+  71              	.L10:
+  72 0004 F62C     		cmp	r4, #246
+  73 0006 11D8     		bhi	.L13
+  74 0008 C4EBC403 		rsb	r3, r4, r4, lsl #3
+  75 000c DA00     		lsls	r2, r3, #3
+  76 000e 084B     		ldr	r3, .L14
+  77 0010 1344     		add	r3, r3, r2
+  78 0012 9D69     		ldr	r5, [r3, #24]
+  79 0014 074A     		ldr	r2, .L14+4
+  80 0016 2101     		lsls	r1, r4, #4
+  81 0018 02EB0410 		add	r0, r2, r4, lsl #4
+  82 001c 5550     		str	r5, [r2, r1]
+  83 001e 196A     		ldr	r1, [r3, #32]
+  84 0020 0430     		adds	r0, r0, #4
+  85 0022 FFF7FEFF 		bl	delay_init
+  86 0026 0134     		adds	r4, r4, #1
+  87 0028 A4B2     		uxth	r4, r4
+  88 002a EBE7     		b	.L10
+  89              	.L13:
+  90 002c 0020     		movs	r0, #0
+  91 002e 38BD     		pop	{r3, r4, r5, pc}
+  92              	.L15:
+  93              		.align	2
+  94              	.L14:
+  95 0030 00000000 		.word	can_signal_st
+  96 0034 00000000 		.word	.LANCHOR0
+  98              		.section	.text.dictionary_read_int,"ax",%progbits
+  99              		.align	1
+ 100              		.global	dictionary_read_int
+ 101              		.syntax unified
+ 102              		.thumb
+ 103              		.thumb_func
+ 104              		.fpu fpv4-sp-d16
+ 106              	dictionary_read_int:
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109 0000 70B5     		push	{r4, r5, r6, lr}
+ 110 0002 0446     		mov	r4, r0
+ 111 0004 0E46     		mov	r6, r1
+ 112 0006 1546     		mov	r5, r2
+ 113 0008 FFF7FEFF 		bl	is_valid_signal_index
+ 114 000c 08B9     		cbnz	r0, .L22
+ 115 000e 0120     		movs	r0, #1
+ 116              	.L17:
+ 117 0010 70BD     		pop	{r4, r5, r6, pc}
+ 118              	.L22:
+ 119 0012 2046     		mov	r0, r4
+ARM GAS  /tmp/ccdPhAu6.s 			page 3
+
+
+ 120 0014 FFF7FEFF 		bl	is_valid_signal
+ 121 0018 50B1     		cbz	r0, .L18
+ 122 001a 2301     		lsls	r3, r4, #4
+ 123 001c 084A     		ldr	r2, .L23
+ 124 001e D358     		ldr	r3, [r2, r3]
+ 125 0020 3360     		str	r3, [r6]
+ 126              	.L19:
+ 127 0022 0748     		ldr	r0, .L23
+ 128 0024 00EB0414 		add	r4, r0, r4, lsl #4
+ 129 0028 A389     		ldrh	r3, [r4, #12]
+ 130 002a 2B80     		strh	r3, [r5]	@ movhi
+ 131 002c 0020     		movs	r0, #0
+ 132 002e EFE7     		b	.L17
+ 133              	.L18:
+ 134 0030 C4EBC403 		rsb	r3, r4, r4, lsl #3
+ 135 0034 034A     		ldr	r2, .L23+4
+ 136 0036 02EBC303 		add	r3, r2, r3, lsl #3
+ 137 003a 9B69     		ldr	r3, [r3, #24]
+ 138 003c 3360     		str	r3, [r6]
+ 139 003e F0E7     		b	.L19
+ 140              	.L24:
+ 141              		.align	2
+ 142              	.L23:
+ 143 0040 00000000 		.word	.LANCHOR0
+ 144 0044 00000000 		.word	can_signal_st
+ 146              		.section	.text.dictionary_read,"ax",%progbits
+ 147              		.align	1
+ 148              		.global	dictionary_read
+ 149              		.syntax unified
+ 150              		.thumb
+ 151              		.thumb_func
+ 152              		.fpu fpv4-sp-d16
+ 154              	dictionary_read:
+ 155              		@ args = 0, pretend = 0, frame = 0
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157 0000 08B5     		push	{r3, lr}
+ 158 0002 FFF7FEFF 		bl	dictionary_read_int
+ 159 0006 08BD     		pop	{r3, pc}
+ 161              		.section	.text.dictionary_read_float,"ax",%progbits
+ 162              		.align	1
+ 163              		.global	dictionary_read_float
+ 164              		.syntax unified
+ 165              		.thumb
+ 166              		.thumb_func
+ 167              		.fpu fpv4-sp-d16
+ 169              	dictionary_read_float:
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172 0000 70B5     		push	{r4, r5, r6, lr}
+ 173 0002 0446     		mov	r4, r0
+ 174 0004 0E46     		mov	r6, r1
+ 175 0006 1546     		mov	r5, r2
+ 176 0008 FFF7FEFF 		bl	is_valid_signal_index
+ 177 000c 08B9     		cbnz	r0, .L33
+ 178 000e 0120     		movs	r0, #1
+ 179              	.L28:
+ 180 0010 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  /tmp/ccdPhAu6.s 			page 4
+
+
+ 181              	.L33:
+ 182 0012 2046     		mov	r0, r4
+ 183 0014 FFF7FEFF 		bl	is_valid_signal
+ 184 0018 D0B1     		cbz	r0, .L29
+ 185 001a 2301     		lsls	r3, r4, #4
+ 186 001c 174A     		ldr	r2, .L34
+ 187 001e D318     		adds	r3, r2, r3
+ 188 0020 93ED007A 		vldr.32	s14, [r3]	@ int
+ 189 0024 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 190 0028 C4EBC403 		rsb	r3, r4, r4, lsl #3
+ 191 002c 144A     		ldr	r2, .L34+4
+ 192 002e 02EBC303 		add	r3, r2, r3, lsl #3
+ 193 0032 D3ED077A 		vldr.32	s15, [r3, #28]	@ int
+ 194 0036 F8EE677A 		vcvt.f32.u32	s15, s15
+ 195 003a C7EE276A 		vdiv.f32	s13, s14, s15
+ 196 003e C6ED006A 		vstr.32	s13, [r6]
+ 197              	.L30:
+ 198 0042 0E48     		ldr	r0, .L34
+ 199 0044 00EB0414 		add	r4, r0, r4, lsl #4
+ 200 0048 A389     		ldrh	r3, [r4, #12]
+ 201 004a 2B80     		strh	r3, [r5]	@ movhi
+ 202 004c 0020     		movs	r0, #0
+ 203 004e DFE7     		b	.L28
+ 204              	.L29:
+ 205 0050 0B4B     		ldr	r3, .L34+4
+ 206 0052 C4EBC402 		rsb	r2, r4, r4, lsl #3
+ 207 0056 03EBC202 		add	r2, r3, r2, lsl #3
+ 208 005a 92ED067A 		vldr.32	s14, [r2, #24]	@ int
+ 209 005e B8EEC77A 		vcvt.f32.s32	s14, s14
+ 210 0062 C4EBC402 		rsb	r2, r4, r4, lsl #3
+ 211 0066 03EBC203 		add	r3, r3, r2, lsl #3
+ 212 006a D3ED077A 		vldr.32	s15, [r3, #28]	@ int
+ 213 006e F8EE677A 		vcvt.f32.u32	s15, s15
+ 214 0072 C7EE276A 		vdiv.f32	s13, s14, s15
+ 215 0076 C6ED006A 		vstr.32	s13, [r6]
+ 216 007a E2E7     		b	.L30
+ 217              	.L35:
+ 218              		.align	2
+ 219              	.L34:
+ 220 007c 00000000 		.word	.LANCHOR0
+ 221 0080 00000000 		.word	can_signal_st
+ 223              		.section	.text.dictionary_write_int,"ax",%progbits
+ 224              		.align	1
+ 225              		.global	dictionary_write_int
+ 226              		.syntax unified
+ 227              		.thumb
+ 228              		.thumb_func
+ 229              		.fpu fpv4-sp-d16
+ 231              	dictionary_write_int:
+ 232              		@ args = 0, pretend = 0, frame = 0
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234 0000 70B5     		push	{r4, r5, r6, lr}
+ 235 0002 0446     		mov	r4, r0
+ 236 0004 0E46     		mov	r6, r1
+ 237 0006 1546     		mov	r5, r2
+ 238 0008 FFF7FEFF 		bl	is_valid_signal_index
+ 239 000c 08B9     		cbnz	r0, .L40
+ARM GAS  /tmp/ccdPhAu6.s 			page 5
+
+
+ 240 000e 0120     		movs	r0, #1
+ 241              	.L37:
+ 242 0010 70BD     		pop	{r4, r5, r6, pc}
+ 243              	.L40:
+ 244 0012 064B     		ldr	r3, .L41
+ 245 0014 2201     		lsls	r2, r4, #4
+ 246 0016 03EB0414 		add	r4, r3, r4, lsl #4
+ 247 001a 9E50     		str	r6, [r3, r2]
+ 248 001c 201D     		adds	r0, r4, #4
+ 249 001e FFF7FEFF 		bl	delay_reset
+ 250 0022 A389     		ldrh	r3, [r4, #12]
+ 251 0024 2B80     		strh	r3, [r5]	@ movhi
+ 252 0026 0020     		movs	r0, #0
+ 253 0028 F2E7     		b	.L37
+ 254              	.L42:
+ 255 002a 00BF     		.align	2
+ 256              	.L41:
+ 257 002c 00000000 		.word	.LANCHOR0
+ 259              		.section	.text.dictionary_write,"ax",%progbits
+ 260              		.align	1
+ 261              		.global	dictionary_write
+ 262              		.syntax unified
+ 263              		.thumb
+ 264              		.thumb_func
+ 265              		.fpu fpv4-sp-d16
+ 267              	dictionary_write:
+ 268              		@ args = 0, pretend = 0, frame = 0
+ 269              		@ frame_needed = 0, uses_anonymous_args = 0
+ 270 0000 08B5     		push	{r3, lr}
+ 271 0002 FFF7FEFF 		bl	dictionary_write_int
+ 272 0006 08BD     		pop	{r3, pc}
+ 274              		.section	.text.dictionary_write_float,"ax",%progbits
+ 275              		.align	1
+ 276              		.global	dictionary_write_float
+ 277              		.syntax unified
+ 278              		.thumb
+ 279              		.thumb_func
+ 280              		.fpu fpv4-sp-d16
+ 282              	dictionary_write_float:
+ 283              		@ args = 0, pretend = 0, frame = 0
+ 284              		@ frame_needed = 0, uses_anonymous_args = 0
+ 285 0000 38B5     		push	{r3, r4, r5, lr}
+ 286 0002 2DED028B 		vpush.64	{d8}
+ 287 0006 0446     		mov	r4, r0
+ 288 0008 B0EE408A 		vmov.f32	s16, s0
+ 289 000c 0D46     		mov	r5, r1
+ 290 000e FFF7FEFF 		bl	is_valid_signal_index
+ 291 0012 18B9     		cbnz	r0, .L49
+ 292 0014 0120     		movs	r0, #1
+ 293              	.L46:
+ 294 0016 BDEC028B 		vldm	sp!, {d8}
+ 295 001a 38BD     		pop	{r3, r4, r5, pc}
+ 296              	.L49:
+ 297 001c C4EBC402 		rsb	r2, r4, r4, lsl #3
+ 298 0020 0C4B     		ldr	r3, .L50
+ 299 0022 03EBC203 		add	r3, r3, r2, lsl #3
+ 300 0026 93ED070A 		vldr.32	s0, [r3, #28]	@ int
+ARM GAS  /tmp/ccdPhAu6.s 			page 6
+
+
+ 301 002a B8EE400A 		vcvt.f32.u32	s0, s0
+ 302 002e 20EE080A 		vmul.f32	s0, s0, s16
+ 303 0032 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 304 0036 084B     		ldr	r3, .L50+4
+ 305 0038 2201     		lsls	r2, r4, #4
+ 306 003a 03EB0414 		add	r4, r3, r4, lsl #4
+ 307 003e 10EE101A 		vmov	r1, s0	@ int
+ 308 0042 9950     		str	r1, [r3, r2]
+ 309 0044 201D     		adds	r0, r4, #4
+ 310 0046 FFF7FEFF 		bl	delay_reset
+ 311 004a A389     		ldrh	r3, [r4, #12]
+ 312 004c 2B80     		strh	r3, [r5]	@ movhi
+ 313 004e 0020     		movs	r0, #0
+ 314 0050 E1E7     		b	.L46
+ 315              	.L51:
+ 316 0052 00BF     		.align	2
+ 317              	.L50:
+ 318 0054 00000000 		.word	can_signal_st
+ 319 0058 00000000 		.word	.LANCHOR0
+ 321              		.section	.bss.dictionary,"aw",%nobits
+ 322              		.align	2
+ 323              		.set	.LANCHOR0,. + 0
+ 326              	dictionary:
+ 327 0000 00000000 		.space	3952
+ 327      00000000 
+ 327      00000000 
+ 327      00000000 
+ 327      00000000 
+ 328              		.ident	"GCC: (15:9-2019-q4-0ubuntu1) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]"
+ARM GAS  /tmp/ccdPhAu6.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 dictionary.c
+     /tmp/ccdPhAu6.s:16     .text.is_valid_signal:0000000000000000 $t
+     /tmp/ccdPhAu6.s:23     .text.is_valid_signal:0000000000000000 is_valid_signal
+     /tmp/ccdPhAu6.s:55     .text.is_valid_signal:000000000000003c $d
+     /tmp/ccdPhAu6.s:59     .text.dictionary_init:0000000000000000 $t
+     /tmp/ccdPhAu6.s:66     .text.dictionary_init:0000000000000000 dictionary_init
+     /tmp/ccdPhAu6.s:95     .text.dictionary_init:0000000000000030 $d
+     /tmp/ccdPhAu6.s:99     .text.dictionary_read_int:0000000000000000 $t
+     /tmp/ccdPhAu6.s:106    .text.dictionary_read_int:0000000000000000 dictionary_read_int
+     /tmp/ccdPhAu6.s:143    .text.dictionary_read_int:0000000000000040 $d
+     /tmp/ccdPhAu6.s:147    .text.dictionary_read:0000000000000000 $t
+     /tmp/ccdPhAu6.s:154    .text.dictionary_read:0000000000000000 dictionary_read
+     /tmp/ccdPhAu6.s:162    .text.dictionary_read_float:0000000000000000 $t
+     /tmp/ccdPhAu6.s:169    .text.dictionary_read_float:0000000000000000 dictionary_read_float
+     /tmp/ccdPhAu6.s:220    .text.dictionary_read_float:000000000000007c $d
+     /tmp/ccdPhAu6.s:224    .text.dictionary_write_int:0000000000000000 $t
+     /tmp/ccdPhAu6.s:231    .text.dictionary_write_int:0000000000000000 dictionary_write_int
+     /tmp/ccdPhAu6.s:257    .text.dictionary_write_int:000000000000002c $d
+     /tmp/ccdPhAu6.s:260    .text.dictionary_write:0000000000000000 $t
+     /tmp/ccdPhAu6.s:267    .text.dictionary_write:0000000000000000 dictionary_write
+     /tmp/ccdPhAu6.s:275    .text.dictionary_write_float:0000000000000000 $t
+     /tmp/ccdPhAu6.s:282    .text.dictionary_write_float:0000000000000000 dictionary_write_float
+     /tmp/ccdPhAu6.s:318    .text.dictionary_write_float:0000000000000054 $d
+     /tmp/ccdPhAu6.s:322    .bss.dictionary:0000000000000000 $d
+     /tmp/ccdPhAu6.s:326    .bss.dictionary:0000000000000000 dictionary
+
+UNDEFINED SYMBOLS
+delay_get_status
+can_signal_st
+delay_init
+is_valid_signal_index
+delay_reset

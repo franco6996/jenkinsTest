@@ -1,0 +1,32 @@
+pipeline {
+    agent any 
+
+    environment {
+        TOOL_DIR = "${WORKSPACE}\\ci-cd-tools"
+    }
+
+    stages {
+        stage('Build') { 
+            steps {
+                shell "make all"
+            }
+        }
+
+        
+    }
+
+    post {
+        success {
+		
+        }
+        unsuccessful {
+            script {
+                emailext (
+                    to: '${DEFAULT_RECIPIENTS}',
+                    subject: "Unsuccessful build ${env.BUILD_ID}",
+                    body: "Build ${env.BUILD_ID} has result ${currentBuild.currentResult}"
+                )
+            }
+        }
+    }
+}

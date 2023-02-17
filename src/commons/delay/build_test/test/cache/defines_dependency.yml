@@ -1,0 +1,5 @@
+---
+build_test/test/mocks/mock_hal.c:
+- TEST
+"./delay.c":
+- TEST

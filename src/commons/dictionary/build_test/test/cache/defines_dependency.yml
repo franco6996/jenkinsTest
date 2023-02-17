@@ -1,0 +1,13 @@
+---
+build_test/test/mocks/mock_delay.c:
+- TEST
+"./dictionary.c":
+- TEST
+test/support/generated_tables/can_tables.c:
+- TEST
+test/support/communication/can_tables_base.c:
+- TEST
+build_test/test/mocks/mock_hal.c:
+- TEST
+test/support/delay/delay.c:
+- TEST

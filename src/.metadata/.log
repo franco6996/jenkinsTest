@@ -1,0 +1,10 @@
+!SESSION 2023-02-14 14:27:48.856 -----------------------------------------------
+eclipse.buildId=Version 1.11.2
+java.version=11.0.16
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_ES
+Framework arguments:  -application org.eclipse.cdt.managedbuilder.core.headlessbuild -build all
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -application org.eclipse.cdt.managedbuilder.core.headlessbuild -data ./ -build all
+
+!ENTRY org.eclipse.core.resources 4 566 2023-02-14 14:27:50.826
+!MESSAGE Workspace was not properly initialized or has already shutdown.

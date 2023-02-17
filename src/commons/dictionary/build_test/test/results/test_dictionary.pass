@@ -1,0 +1,82 @@
+---
+:source:
+  :path: test
+  :file: test_dictionary.c
+:successes:
+- :test: test__dictionary_init__init
+  :line: 27
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__write_int_value_valid_index
+  :line: 50
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__write_int_value_invalid_index
+  :line: 77
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_int_value_invalid_index
+  :line: 104
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_int_value_valid_index_no_expired
+  :line: 125
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_int_value_valid_index_expired
+  :line: 159
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_int_value_valid_index_no_expiration
+  :line: 194
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_int_value_valid_index_source
+  :line: 229
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_neg_int_value_valid_index_no_expired
+  :line: 265
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__write_float_value_valid_index
+  :line: 303
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__write_float_value_invalid_index
+  :line: 330
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_float_value_invalid_index
+  :line: 357
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_float_value_valid_index_no_expired
+  :line: 378
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_float_value_valid_index_expired
+  :line: 412
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_float_value_valid_index_no_expiration
+  :line: 448
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_float_value_valid_index_source
+  :line: 483
+  :message: ''
+  :unity_test_time: 0
+- :test: test__dictionary_init__read_neg_float_value_valid_index_no_expired
+  :line: 519
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 17
+  :passed: 17
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.005321600001479965

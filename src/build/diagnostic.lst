@@ -1,0 +1,315 @@
+ARM GAS  /tmp/ccam5gUP.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"diagnostic.c"
+  14              		.text
+  15              		.section	.text.diag_add,"ax",%progbits
+  16              		.align	1
+  17              		.global	diag_add
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	diag_add:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 0146     		mov	r1, r0
+  29 0002 0023     		movs	r3, #0
+  30              	.L2:
+  31 0004 272B     		cmp	r3, #39
+  32 0006 07D8     		bhi	.L18
+  33 0008 174A     		ldr	r2, .L23
+  34 000a 32F81320 		ldrh	r2, [r2, r3, lsl #1]
+  35 000e 8A42     		cmp	r2, r1
+  36 0010 05D0     		beq	.L10
+  37 0012 0133     		adds	r3, r3, #1
+  38 0014 9BB2     		uxth	r3, r3
+  39 0016 F5E7     		b	.L2
+  40              	.L18:
+  41 0018 0023     		movs	r3, #0
+  42 001a 0120     		movs	r0, #1
+  43 001c 01E0     		b	.L3
+  44              	.L10:
+  45 001e 0123     		movs	r3, #1
+  46 0020 0020     		movs	r0, #0
+  47              	.L3:
+  48 0022 EBB9     		cbnz	r3, .L13
+  49 0024 272B     		cmp	r3, #39
+  50 0026 19D8     		bhi	.L19
+  51 0028 10B4     		push	{r4}
+  52              	.L9:
+  53 002a 0F4A     		ldr	r2, .L23
+  54 002c 32F81320 		ldrh	r2, [r2, r3, lsl #1]
+  55 0030 F72A     		cmp	r2, #247
+  56 0032 04D0     		beq	.L20
+  57 0034 0133     		adds	r3, r3, #1
+  58 0036 9BB2     		uxth	r3, r3
+ARM GAS  /tmp/ccam5gUP.s 			page 2
+
+
+  59 0038 272B     		cmp	r3, #39
+  60 003a F6D9     		bls	.L9
+  61 003c 07E0     		b	.L8
+  62              	.L20:
+  63 003e 0A4A     		ldr	r2, .L23
+  64 0040 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+  65 0044 0949     		ldr	r1, .L23+4
+  66 0046 0A88     		ldrh	r2, [r1]
+  67 0048 0132     		adds	r2, r2, #1
+  68 004a 0A80     		strh	r2, [r1]	@ movhi
+  69 004c 0020     		movs	r0, #0
+  70              	.L8:
+  71 004e 282B     		cmp	r3, #40
+  72 0050 02D0     		beq	.L21
+  73              	.L5:
+  74 0052 5DF8044B 		ldr	r4, [sp], #4
+  75 0056 7047     		bx	lr
+  76              	.L21:
+  77 0058 0220     		movs	r0, #2
+  78 005a FAE7     		b	.L5
+  79              	.L19:
+  80 005c 282B     		cmp	r3, #40
+  81 005e 00D0     		beq	.L22
+  82              	.L13:
+  83 0060 7047     		bx	lr
+  84              	.L22:
+  85 0062 0220     		movs	r0, #2
+  86 0064 7047     		bx	lr
+  87              	.L24:
+  88 0066 00BF     		.align	2
+  89              	.L23:
+  90 0068 00000000 		.word	.LANCHOR0
+  91 006c 00000000 		.word	.LANCHOR1
+  93              		.section	.text.diag_remove,"ax",%progbits
+  94              		.align	1
+  95              		.global	diag_remove
+  96              		.syntax unified
+  97              		.thumb
+  98              		.thumb_func
+  99              		.fpu fpv4-sp-d16
+ 101              	diag_remove:
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              		@ link register save eliminated.
+ 105 0000 0023     		movs	r3, #0
+ 106              	.L26:
+ 107 0002 272B     		cmp	r3, #39
+ 108 0004 14D8     		bhi	.L31
+ 109 0006 1946     		mov	r1, r3
+ 110 0008 0B4A     		ldr	r2, .L33
+ 111 000a 32F81320 		ldrh	r2, [r2, r3, lsl #1]
+ 112 000e 8242     		cmp	r2, r0
+ 113 0010 02D0     		beq	.L32
+ 114 0012 0133     		adds	r3, r3, #1
+ 115 0014 9BB2     		uxth	r3, r3
+ 116 0016 F4E7     		b	.L26
+ 117              	.L32:
+ARM GAS  /tmp/ccam5gUP.s 			page 3
+
+
+ 118 0018 074B     		ldr	r3, .L33
+ 119 001a F722     		movs	r2, #247
+ 120 001c 23F81120 		strh	r2, [r3, r1, lsl #1]	@ movhi
+ 121 0020 064B     		ldr	r3, .L33+4
+ 122 0022 1B88     		ldrh	r3, [r3]
+ 123 0024 33B1     		cbz	r3, .L30
+ 124 0026 013B     		subs	r3, r3, #1
+ 125 0028 044A     		ldr	r2, .L33+4
+ 126 002a 1380     		strh	r3, [r2]	@ movhi
+ 127 002c 0020     		movs	r0, #0
+ 128 002e 7047     		bx	lr
+ 129              	.L31:
+ 130 0030 0120     		movs	r0, #1
+ 131 0032 7047     		bx	lr
+ 132              	.L30:
+ 133 0034 0020     		movs	r0, #0
+ 134 0036 7047     		bx	lr
+ 135              	.L34:
+ 136              		.align	2
+ 137              	.L33:
+ 138 0038 00000000 		.word	.LANCHOR0
+ 139 003c 00000000 		.word	.LANCHOR1
+ 141              		.section	.text.diag_get_count,"ax",%progbits
+ 142              		.align	1
+ 143              		.global	diag_get_count
+ 144              		.syntax unified
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.fpu fpv4-sp-d16
+ 149              	diag_get_count:
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              		@ link register save eliminated.
+ 153 0000 014B     		ldr	r3, .L36
+ 154 0002 1888     		ldrh	r0, [r3]
+ 155 0004 7047     		bx	lr
+ 156              	.L37:
+ 157 0006 00BF     		.align	2
+ 158              	.L36:
+ 159 0008 00000000 		.word	.LANCHOR1
+ 161              		.section	.text.diag_clear,"ax",%progbits
+ 162              		.align	1
+ 163              		.global	diag_clear
+ 164              		.syntax unified
+ 165              		.thumb
+ 166              		.thumb_func
+ 167              		.fpu fpv4-sp-d16
+ 169              	diag_clear:
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172              		@ link register save eliminated.
+ 173 0000 0023     		movs	r3, #0
+ 174 0002 05E0     		b	.L39
+ 175              	.L40:
+ 176 0004 044A     		ldr	r2, .L41
+ 177 0006 F721     		movs	r1, #247
+ 178 0008 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ARM GAS  /tmp/ccam5gUP.s 			page 4
+
+
+ 179 000c 0133     		adds	r3, r3, #1
+ 180 000e 9BB2     		uxth	r3, r3
+ 181              	.L39:
+ 182 0010 272B     		cmp	r3, #39
+ 183 0012 F7D9     		bls	.L40
+ 184 0014 0020     		movs	r0, #0
+ 185 0016 7047     		bx	lr
+ 186              	.L42:
+ 187              		.align	2
+ 188              	.L41:
+ 189 0018 00000000 		.word	.LANCHOR0
+ 191              		.section	.text.diag_init,"ax",%progbits
+ 192              		.align	1
+ 193              		.global	diag_init
+ 194              		.syntax unified
+ 195              		.thumb
+ 196              		.thumb_func
+ 197              		.fpu fpv4-sp-d16
+ 199              	diag_init:
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202 0000 08B5     		push	{r3, lr}
+ 203 0002 FFF7FEFF 		bl	diag_clear
+ 204 0006 0020     		movs	r0, #0
+ 205 0008 08BD     		pop	{r3, pc}
+ 207              		.section	.text.diag_get_next_signal,"ax",%progbits
+ 208              		.align	1
+ 209              		.global	diag_get_next_signal
+ 210              		.syntax unified
+ 211              		.thumb
+ 212              		.thumb_func
+ 213              		.fpu fpv4-sp-d16
+ 215              	diag_get_next_signal:
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              		@ link register save eliminated.
+ 219 0000 104B     		ldr	r3, .L54
+ 220 0002 1B88     		ldrh	r3, [r3]
+ 221 0004 83B1     		cbz	r3, .L51
+ 222              	.L48:
+ 223 0006 104B     		ldr	r3, .L54+4
+ 224 0008 1B88     		ldrh	r3, [r3]
+ 225 000a 104A     		ldr	r2, .L54+8
+ 226 000c 32F81320 		ldrh	r2, [r2, r3, lsl #1]
+ 227 0010 F72A     		cmp	r2, #247
+ 228 0012 0BD1     		bne	.L52
+ 229 0014 0133     		adds	r3, r3, #1
+ 230 0016 9BB2     		uxth	r3, r3
+ 231 0018 0B4A     		ldr	r2, .L54+4
+ 232 001a 1380     		strh	r3, [r2]	@ movhi
+ 233 001c 282B     		cmp	r3, #40
+ 234 001e F2D1     		bne	.L48
+ 235 0020 1346     		mov	r3, r2
+ 236 0022 0022     		movs	r2, #0
+ 237 0024 1A80     		strh	r2, [r3]	@ movhi
+ 238 0026 EEE7     		b	.L48
+ 239              	.L51:
+ARM GAS  /tmp/ccam5gUP.s 			page 5
+
+
+ 240 0028 0320     		movs	r0, #3
+ 241 002a 7047     		bx	lr
+ 242              	.L52:
+ 243 002c 0280     		strh	r2, [r0]	@ movhi
+ 244 002e 0133     		adds	r3, r3, #1
+ 245 0030 9BB2     		uxth	r3, r3
+ 246 0032 054A     		ldr	r2, .L54+4
+ 247 0034 1380     		strh	r3, [r2]	@ movhi
+ 248 0036 282B     		cmp	r3, #40
+ 249 0038 01D0     		beq	.L53
+ 250 003a 0020     		movs	r0, #0
+ 251 003c 7047     		bx	lr
+ 252              	.L53:
+ 253 003e 0020     		movs	r0, #0
+ 254 0040 1080     		strh	r0, [r2]	@ movhi
+ 255 0042 7047     		bx	lr
+ 256              	.L55:
+ 257              		.align	2
+ 258              	.L54:
+ 259 0044 00000000 		.word	.LANCHOR1
+ 260 0048 00000000 		.word	.LANCHOR2
+ 261 004c 00000000 		.word	.LANCHOR0
+ 263              		.section	.bss.diag_signals,"aw",%nobits
+ 264              		.align	2
+ 265              		.set	.LANCHOR0,. + 0
+ 268              	diag_signals:
+ 269 0000 00000000 		.space	80
+ 269      00000000 
+ 269      00000000 
+ 269      00000000 
+ 269      00000000 
+ 270              		.section	.bss.diag_signals_count,"aw",%nobits
+ 271              		.align	1
+ 272              		.set	.LANCHOR1,. + 0
+ 275              	diag_signals_count:
+ 276 0000 0000     		.space	2
+ 277              		.section	.bss.i.5633,"aw",%nobits
+ 278              		.align	1
+ 279              		.set	.LANCHOR2,. + 0
+ 282              	i.5633:
+ 283 0000 0000     		.space	2
+ 284              		.ident	"GCC: (15:9-2019-q4-0ubuntu1) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]"
+ARM GAS  /tmp/ccam5gUP.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 diagnostic.c
+     /tmp/ccam5gUP.s:16     .text.diag_add:0000000000000000 $t
+     /tmp/ccam5gUP.s:24     .text.diag_add:0000000000000000 diag_add
+     /tmp/ccam5gUP.s:90     .text.diag_add:0000000000000068 $d
+     /tmp/ccam5gUP.s:94     .text.diag_remove:0000000000000000 $t
+     /tmp/ccam5gUP.s:101    .text.diag_remove:0000000000000000 diag_remove
+     /tmp/ccam5gUP.s:138    .text.diag_remove:0000000000000038 $d
+     /tmp/ccam5gUP.s:142    .text.diag_get_count:0000000000000000 $t
+     /tmp/ccam5gUP.s:149    .text.diag_get_count:0000000000000000 diag_get_count
+     /tmp/ccam5gUP.s:159    .text.diag_get_count:0000000000000008 $d
+     /tmp/ccam5gUP.s:162    .text.diag_clear:0000000000000000 $t
+     /tmp/ccam5gUP.s:169    .text.diag_clear:0000000000000000 diag_clear
+     /tmp/ccam5gUP.s:189    .text.diag_clear:0000000000000018 $d
+     /tmp/ccam5gUP.s:192    .text.diag_init:0000000000000000 $t
+     /tmp/ccam5gUP.s:199    .text.diag_init:0000000000000000 diag_init
+     /tmp/ccam5gUP.s:208    .text.diag_get_next_signal:0000000000000000 $t
+     /tmp/ccam5gUP.s:215    .text.diag_get_next_signal:0000000000000000 diag_get_next_signal
+     /tmp/ccam5gUP.s:259    .text.diag_get_next_signal:0000000000000044 $d
+     /tmp/ccam5gUP.s:264    .bss.diag_signals:0000000000000000 $d
+     /tmp/ccam5gUP.s:268    .bss.diag_signals:0000000000000000 diag_signals
+     /tmp/ccam5gUP.s:271    .bss.diag_signals_count:0000000000000000 $d
+     /tmp/ccam5gUP.s:275    .bss.diag_signals_count:0000000000000000 diag_signals_count
+     /tmp/ccam5gUP.s:278    .bss.i.5633:0000000000000000 $d
+     /tmp/ccam5gUP.s:282    .bss.i.5633:0000000000000000 i.5633
+
+NO UNDEFINED SYMBOLS
