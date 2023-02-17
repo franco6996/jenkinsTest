@@ -13,8 +13,11 @@ pipeline {
 				sh 'make -C src/ci-cd-tools/ -j8 all'
             }
         }
-
-        
+        stage('Static Analysis') { 
+            steps {
+				sh 'echo Comenzando Cpp-Check'
+            }
+        }
     }
 
     post {
