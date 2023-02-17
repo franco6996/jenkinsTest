@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'cd src/ci-cd-tools/' 
+                sh 'cd /var/lib/jenkins/workspace/jenkinsTest/src/ci-cd-tools/' 
 				sh 'make -j8 all'
             }
         }
