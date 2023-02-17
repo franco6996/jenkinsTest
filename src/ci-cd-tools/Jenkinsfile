@@ -8,7 +8,8 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'make all'
+                sh 'cd src/ci-cd-tools/' 
+				sh 'make -j8 all'
             }
         }
 
