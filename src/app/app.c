@@ -59,7 +59,7 @@ void app_run(void)
 	task_diag_init();
 
 	//Add tasks to scheduler
-	os_add_task(task_0_run, 0, 1000);
+	os_add_task(task_0_run, 0, 1000)
 	os_add_task(task_1_run, 0, 1000);
 	os_add_task(task_diag_run, 0, 1000);
 
