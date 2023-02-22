@@ -14,7 +14,7 @@ pipeline {
 				sh 'make -C src/ci-cd-tools/ -j8 all'
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
 					script {
-						sh 'Buscando Warnings durante la compilacion'
+						sh 'echo Buscando Warnings durante la compilacion'
 						if (manager.logContains('warning')) {
 							sh 'echo Se encontraron Warnings'
 							sh 'exit 1'
