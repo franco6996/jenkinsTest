@@ -15,8 +15,9 @@ pipeline {
         }
         stage('Static Analysis') { 
             steps {
+				/* Analisis estaticos, bajo un catch error para que den como resultado builds inestables pero no detengan todo el proceso */
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    sh 'echo Comenzando Cpp-Check'
+                    sh 'cppcheck --error-exitcode=2 --inline-suppr --suppress=*:*test/* --enable=all src/'
                 }
             }
         }
@@ -25,9 +26,10 @@ pipeline {
     post {
 		always {
 			sh 'echo Pipeline Finalizada.'
+			/* Log de todos los issues/warnings de la consola y marco como inestable la build entera */
 			recordIssues(
 				enabledForFailure: true, aggregatingResults: true,
-				tools: [gcc()]
+				tools: [gcc(), cppCheck()]
 			)
 			findText(textFinders: [
 				textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE')
