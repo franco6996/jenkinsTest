@@ -15,7 +15,7 @@ pipeline {
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
 					script {
 						sh 'echo Buscando Warnings durante la compilacion'
-						if (manager.logContains('warning')) {
+						if (manager.logContains('.*warning.*')) {
 							sh 'echo Se encontraron Warnings'
 							sh 'exit 1'
 						} 
