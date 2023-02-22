@@ -13,11 +13,23 @@ pipeline {
 				sh 'make -C src/ci-cd-tools/ -j8 all'
 				/*
 				findText(textFinders: [
-				  textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE', stageResult: 'FAILURE')
+				  textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE')
 				])
 				*/
             }
         }
+		stage('Test') {
+			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+				script {
+					try {
+						sh "exit 2"
+					} catch (e) {
+						echo 'send email'
+						throw e
+					}
+				}
+			}
+		}
         stage('Static Analysis') { 
             steps {
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
