@@ -11,14 +11,18 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'make -C src/ci-cd-tools/ clean'
 				sh 'make -C src/ci-cd-tools/ -j8 all'
-				findText(textFinders: [
-				  textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE', stageResult: 'FAILURE')
-				])
+				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+					findText(textFinders: [
+					  textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE', stageResult: 'FAILURE')
+					])
+				}
             }
         }
         stage('Static Analysis') { 
             steps {
-				sh 'echo Comenzando Cpp-Check'
+				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    sh 'echo Comenzando Cpp-Check'
+                }
             }
         }
     }
