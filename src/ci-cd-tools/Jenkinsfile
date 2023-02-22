@@ -19,13 +19,15 @@ pipeline {
             }
         }
 		stage('Test') {
-			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-				script {
-					try {
-						sh "exit 2"
-					} catch (e) {
-						echo 'send email'
-						throw e
+			steps {
+				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+					script {
+						try {
+							sh "exit 2"
+						} catch (e) {
+							echo 'send email'
+							throw e
+						}
 					}
 				}
 			}
