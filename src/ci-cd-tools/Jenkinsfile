@@ -10,22 +10,7 @@ pipeline {
             steps {
 				sh 'echo Comenzando Build'
 				sh 'make -C src/ci-cd-tools/ clean'
-				catchError(stageResult: 'FAILURE') {
-					script {
-						try {
-							sh 'make -C src/ci-cd-tools/ -j8 all'
-						} catch (e) {
-							echo 'Error encounter $e'
-							throw e
-							if ( e == 2 ) {
-								buildResult: 'UNSTABLE'
-							}
-							if ( e == 1 ) {
-								buildResult: 'FAILURE'
-							}
-						}
-					}
-				}
+				sh 'make -C src/ci-cd-tools/ -j8 all'
             }
         }
         stage('Static Analysis') { 
@@ -42,8 +27,11 @@ pipeline {
 			sh 'echo Pipeline Finalizada.'
 			recordIssues(
 				enabledForFailure: true, aggregatingResults: true,
-				tools: [armCc(), gcc()]
+				tools: [gcc()]
 			)
+			findText(textFinders: [
+				textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE')
+			])
 		}
         success {
 			sh 'echo success'
