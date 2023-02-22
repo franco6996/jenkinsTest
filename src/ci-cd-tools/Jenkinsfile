@@ -30,7 +30,7 @@ pipeline {
     post {
 		always {
 			sh 'echo Pipeline Finalizada.'
-			recordIssues enabledForFailure: true, aggregatingResults: true, tools: [c(), checkStyle()]
+			recordIssues enabledForFailure: true, aggregatingResults: true, tools: [armCc(), cppCheck()]
 		}
         success {
 			sh 'echo success'
