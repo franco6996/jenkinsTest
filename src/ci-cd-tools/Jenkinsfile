@@ -11,13 +11,18 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'make -C src/ci-cd-tools/ clean'
 				sh 'make -C src/ci-cd-tools/ -j8 all'
+				if (manager.logContains('warning')) {
+					catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+						sh 'exit 1'
+					} 
+				}
             }
         }
         stage('Static Analysis') { 
             steps {
 				/* Analisis estaticos, bajo un catch error para que den como resultado builds inestables pero no detengan todo el proceso */
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    sh 'cppcheck --error-exitcode=2 --inline-suppr --suppress=*:*test/* --enable=all src/'
+                    sh 'cppcheck --error-exitcode=2 --inline-suppr --suppress=*:*test/* --enable=style --force src/'
                 }
             }
         }
