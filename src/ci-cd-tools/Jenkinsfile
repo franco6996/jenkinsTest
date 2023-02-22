@@ -11,10 +11,12 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'make -C src/ci-cd-tools/ clean'
 				sh 'make -C src/ci-cd-tools/ -j8 all'
-				if (manager.logContains('warning')) {
-					catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-						sh 'exit 1'
-					} 
+				script {
+					if (manager.logContains('warning')) {
+						catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+							sh 'exit 1'
+						} 
+					}
 				}
             }
         }
