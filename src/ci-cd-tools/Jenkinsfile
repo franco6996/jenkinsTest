@@ -29,7 +29,7 @@ pipeline {
 			/* Log de todos los issues/warnings de la consola y marco como inestable la build entera */
 			recordIssues(
 				enabledForFailure: true, aggregatingResults: true,
-				tools: [gcc(), cppCheck()]
+				tools: [gcc()]
 			)
 			findText(textFinders: [
 				textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE')
