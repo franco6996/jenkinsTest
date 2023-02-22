@@ -11,10 +11,13 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'make -C src/ci-cd-tools/ clean'
 				sh 'make -C src/ci-cd-tools/ -j8 all'
-				status = findText(textFinders: [
-				  textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE')
-				])
-				echo status
+				try {
+					findText(textFinders: [
+					  textFinder(regexp: 'warning', alsoCheckConsoleOutput: true, buildResult: 'UNSTABLE')
+					])
+				} catch (ex) {
+				  unstable('Script failed!')
+				}
             }
         }
         stage('Static Analysis') { 
