@@ -11,18 +11,9 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'arm-none-eabi-gcc --version'
 				sh 'make -C src/ci-cd-tools/ clean'
-				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-					sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
-				}
-				script {
-					echo ${BUILD_STATUS}
-					if ( ${BUILD_STATUS} == 'UNSTABLE' ) {
-						sh 'cat src/ci-cd-tools/compilation_error.log'
-					}
-				}
+				sh 'bash src/ci-cd-tools/build_script.sh'
 				catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-					sh 'cat src/ci-cd-tools/compilation_error.log'
-                    sh 'bash src/ci-cd-tools/warning_script.sh'
+                    sh 'bash src/ci-cd-tools/isUnstable_script.sh'
                 }
             }
         }
