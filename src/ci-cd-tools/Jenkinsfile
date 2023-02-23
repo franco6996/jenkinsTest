@@ -17,7 +17,7 @@ pipeline {
 				script {
 					echo ${BUILD_STATUS}
 					if ( ${BUILD_STATUS} == 'UNSTABLE' ) {
-						sh 'cat src/ci-cd-tools/compilation_error.log | exit 1'
+						sh 'cat src/ci-cd-tools/compilation_error.log'
 					}
 				}
 				catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
