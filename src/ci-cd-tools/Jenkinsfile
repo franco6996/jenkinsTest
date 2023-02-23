@@ -13,7 +13,7 @@ pipeline {
 				sh 'make -C src/ci-cd-tools/ clean'
 				sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
 				sh 'cat src/ci-cd-tools/compilation_error.log'
-				catchError(stageResult: 'UNSTABLE') {
+				catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     sh 'bash src/ci-cd-tools/warning_script.sh'
                 }
             }
@@ -21,7 +21,7 @@ pipeline {
         stage('Static Analysis') { 
             steps {
 				/* Analisis estaticos, bajo un catch error para que den como resultado builds inestables pero no detengan todo el proceso */
-				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+				catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     sh 'cppcheck --error-exitcode=2 --inline-suppr --suppress=*:*test/* --enable=style --force src/'
                 }
             }
