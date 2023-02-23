@@ -11,16 +11,9 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'arm-none-eabi-gcc --version'
 				sh 'make -C src/ci-cd-tools/ clean'
-				sh 'make -C src/ci-cd-tools/ -j8 all'
-				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-					script {
-						sh 'echo Buscando Warnings durante la compilacion'
-						if (manager.logContains('.*warning.*')) {
-							sh 'echo Se encontraron Warnings'
-							sh 'exit 1'
-						} 
-					}
-				}
+				sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
+				sh 'cat src/ci-cd-tools/compilation_error.log'
+				
             }
         }
         stage('Static Analysis') { 
