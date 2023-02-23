@@ -13,7 +13,9 @@ pipeline {
 				sh 'make -C src/ci-cd-tools/ clean'
 				sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
 				sh 'cat src/ci-cd-tools/compilation_error.log'
-				
+				catchError(stageResult: 'UNSTABLE') {
+                    sh 'bash src/ci-cd-tools/warning_script.sh'
+                }
             }
         }
         stage('Static Analysis') { 
