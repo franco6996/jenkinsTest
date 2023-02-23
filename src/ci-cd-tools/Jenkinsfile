@@ -11,12 +11,12 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'arm-none-eabi-gcc --version'
 				sh 'make -C src/ci-cd-tools/ clean'
-				catchError(buildResult: 'FAILED', stageResult: 'FAILED') {
+				catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
 					sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
 				}
 				script {
 					echo ${BUILD_STATUS}
-					if ( ${BUILD_STATUS} == 'FAILED' ) {
+					if ( ${BUILD_STATUS} == 'FAILURE' ) {
 						sh 'cat src/ci-cd-tools/compilation_error.log | exit 1'
 					}
 				}
