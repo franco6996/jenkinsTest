@@ -66,6 +66,7 @@ void app_run(void)
 	while(true)
 	{
 		//Call OS dispatcher
+		unsigned int a
 		os_dispatcher();
 	}
 }
