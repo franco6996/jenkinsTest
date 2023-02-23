@@ -9,9 +9,13 @@ pipeline {
         stage('Build') { 
             steps {
 				sh 'echo Comenzando Build'
+				/* Muestro version de compilador para que quede sobre el log */
 				sh 'arm-none-eabi-gcc --version'
+				/* Limpio el espacio de trabajo por las dudas */
 				sh 'make -C src/ci-cd-tools/ clean'
+				/* Ejecuto script que compila todo, si hay error mostrara en consola los mismos y devuelve 'exit 1' cancelando toda la pipeline */
 				sh 'bash src/ci-cd-tools/build_script.sh'
+				/* Si Compilo bien compruebo si hubo warnings, en tal caso marco como inestable la build */
 				catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     sh 'bash src/ci-cd-tools/isUnstable_script.sh'
                 }
