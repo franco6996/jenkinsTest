@@ -14,8 +14,10 @@ pipeline {
 				catchError(buildResult: 'FAILED', stageResult: 'FAILED') {
 					sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
 				}
-				if ( $BUILD_STATUS == 'FAILED' ) {
-					sh 'cat src/ci-cd-tools/compilation_error.log | exit 1'
+				script {
+					if ( $BUILD_STATUS == 'FAILED' ) {
+						sh 'cat src/ci-cd-tools/compilation_error.log | exit 1'
+					}
 				}
 				catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
 					sh 'cat src/ci-cd-tools/compilation_error.log'
