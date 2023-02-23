@@ -11,7 +11,7 @@ pipeline {
 				sh 'echo Comenzando Build'
 				sh 'arm-none-eabi-gcc --version'
 				sh 'make -C src/ci-cd-tools/ clean'
-				catchError(buildResult: 'UNSTABKE', stageResult: 'FAILURE') {
+				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
 					sh 'make -C src/ci-cd-tools/ -j8 all 2> src/ci-cd-tools/compilation_error.log'
 				}
 				script {
